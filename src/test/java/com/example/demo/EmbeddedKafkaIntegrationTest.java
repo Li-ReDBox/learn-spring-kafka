@@ -21,6 +21,7 @@ import org.springframework.test.annotation.DirtiesContext;
 class EmbeddedKafkaIntegrationTest {
     // https://github.com/eugenp/tutorials/blob/master/spring-kafka/src/test/java/com/baeldung/kafka/embedded/EmbeddedKafkaIntegrationTest.java
 
+    //FIXME: this cannot be run with another mbeddedKafkaTest!!! It has to be something to do with a collision between two runs.
     @Autowired
     public KafkaTemplate<String, String> template;
 
@@ -45,8 +46,8 @@ class EmbeddedKafkaIntegrationTest {
 
         boolean messageConsumed = consumer.getLatch()
           .await(10, TimeUnit.SECONDS);
-        assertTrue(messageConsumed);
         assertThat(consumer.getPayload(), containsString(data));
+        assertTrue(messageConsumed);
     }
 
     @Test
@@ -57,8 +58,8 @@ class EmbeddedKafkaIntegrationTest {
 
         boolean messageConsumed = consumer.getLatch()
           .await(10, TimeUnit.SECONDS);
-        assertTrue(messageConsumed);
         assertThat(consumer.getPayload(), containsString(data));
+        assertTrue(messageConsumed);
     }
 
 }
