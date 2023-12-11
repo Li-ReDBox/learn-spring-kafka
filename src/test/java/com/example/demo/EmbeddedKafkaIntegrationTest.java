@@ -37,7 +37,6 @@ import org.springframework.test.annotation.DirtiesContext;
 class EmbeddedKafkaIntegrationTest {
     // https://github.com/eugenp/tutorials/blob/master/spring-kafka/src/test/java/com/baeldung/kafka/embedded/EmbeddedKafkaIntegrationTest.java
 
-    //FIXME: this cannot be run with another mbeddedKafkaTest!!! It has to be something to do with a collision between two runs.
     @Autowired
     public KafkaTemplate<String, String> template;
 
