@@ -54,11 +54,13 @@ import org.springframework.test.context.TestPropertySource;
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 
+/*
+ * This is useful when testing records generating and consuming.
+ */
 @SpringBootTest
 @EmbeddedKafka(
-    bootstrapServersProperty = "spring.kafka.bootstrap-servers",
-    topics = EmbeddedKafkaTest.TOPIC_NAME
-)
+    partitions = 1,
+    topics = {EmbeddedKafkaTest.TOPIC_NAME})
 @TestPropertySource(properties = "spring.kafka.consumer.auto-offset-reset = earliest")
 @TestInstance(Lifecycle.PER_CLASS)
 class EmbeddedKafkaTest {
