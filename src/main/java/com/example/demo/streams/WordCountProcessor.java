@@ -43,4 +43,18 @@ public class WordCountProcessor {
         wordCounts.toStream().to("output-topic");
     }
 
+    @Autowired
+    void buildPipeline2(StreamsBuilder streamsBuilder) {
+        KStream<String, String> messageStream = streamsBuilder
+            .stream("input-topic", Consumed.with(STRING_SERDE, STRING_SERDE));
+
+        messageStream
+            .mapValues((ValueMapper<String, String>) String::toLowerCase);
+
+        // Debug a KTable<String, Long>:
+        // wordCounts.toStream().foreach((word, count) -> System.out.println("word: " + word + " -> " + count));
+        // In production:
+        // wordCounts.toStream().to(outputTopic, Produced.with(Serdes.String(), Serdes.Long()));
+        // or simply:
+    }
 }
