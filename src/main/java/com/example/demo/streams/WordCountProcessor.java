@@ -10,15 +10,11 @@ import org.apache.kafka.streams.kstream.Grouped;
 import org.apache.kafka.streams.kstream.KStream;
 import org.apache.kafka.streams.kstream.KTable;
 import org.apache.kafka.streams.kstream.Materialized;
+import org.apache.kafka.streams.kstream.Produced;
 import org.apache.kafka.streams.kstream.ValueMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-// This will not run as a component in a Springboot app but merely a setup for the tests: ./gradlew check has:
-// Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 
-// 'wordCountProcessor': Unsatisfied dependency expressed through method 'buildPipeline' parameter 0: No qualifying
-// bean of type 'org.apache.kafka.streams.StreamsBuilder' available: expected at least 1 bean which qualifies
-//as autowire candidate. Dependency annotations: {}
 @Component
 public class WordCountProcessor {
 
@@ -43,13 +39,15 @@ public class WordCountProcessor {
         wordCounts.toStream().to("output-topic");
     }
 
+    // Baeldung says: alternately, we can also create a bean in the configuration class to generate the topology. How?
     @Autowired
     void buildPipeline2(StreamsBuilder streamsBuilder) {
         KStream<String, String> messageStream = streamsBuilder
-            .stream("input-topic", Consumed.with(STRING_SERDE, STRING_SERDE));
+            .stream("input-topic-2", Consumed.with(STRING_SERDE, STRING_SERDE));
 
         messageStream
-            .mapValues((ValueMapper<String, String>) String::toLowerCase);
+            .mapValues((ValueMapper<String, String>) String::toLowerCase)
+            .to("output-topic-2", Produced.with(Serdes.String(), Serdes.String()));
 
         // Debug a KTable<String, Long>:
         // wordCounts.toStream().foreach((word, count) -> System.out.println("word: " + word + " -> " + count));
