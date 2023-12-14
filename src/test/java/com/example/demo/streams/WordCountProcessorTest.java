@@ -53,7 +53,7 @@ class WordCountProcessorTest {
 
     @Test
     void multipleProcessors() {
-               StreamsBuilder streamsBuilder = new StreamsBuilder();
+        StreamsBuilder streamsBuilder = new StreamsBuilder();
         wordCountProcessor.buildPipeline(streamsBuilder);
         wordCountProcessor.buildPipeline2(streamsBuilder);
         Topology topology = streamsBuilder.build();
