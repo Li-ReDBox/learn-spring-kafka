@@ -24,13 +24,10 @@ import org.springframework.kafka.config.TopicBuilder;
 @EnableKafka
 @EnableKafkaStreams
 public class StreamConfig {
+    // This configuration needs to be overridden for the tests using Autowired and EmbeddedKafka
 
     @Value(value = "${spring.kafka.bootstrap-servers:localhost:9092}")
     private String bootstrapAddress;
-
-    // Be careful to set stateStoreLocation. If I set this, EmbeddedKafkaIntegrationTest will fail to launch beans then tests.
-    // @Value(value = "${spring.kafka.streams.state.dir:/tmp/kafka}")
-    // private String stateStoreLocation;
 
     @Bean(name = KafkaStreamsDefaultConfiguration.DEFAULT_STREAMS_CONFIG_BEAN_NAME)
     KafkaStreamsConfiguration kStreamsConfig() {
@@ -39,11 +36,10 @@ public class StreamConfig {
         props.put(BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress);
         props.put(DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass().getName());
         props.put(DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass().getName());
-        // This is questionable: by default, Kafka manage each application differently, this may cause everything store together, not clean??
-        // Example of auto generated: Resolved state.dir: [/var/folders/9d/b2326jv513vglf41k5fz2hmc0000gq/T//kafka-streams
-        // configure the state location to allow tests to use clean state for every run
-        // props.put(STATE_DIR_CONFIG, stateStoreLocation);
-
+        // I am not clear if Kafka manages each application differently with different state.dir. Does this cause everything store together?
+        // Example of auto generated which looks like a static one on a machine: 
+        // Resolved state.dir: [/var/folders/9d/b2326jv513vglf41k5fz2hmc0000gq/T//kafka-streams
+    
         return new KafkaStreamsConfiguration(props);
     }
 

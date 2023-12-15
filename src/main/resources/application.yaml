@@ -1,6 +1,5 @@
+
 spring:
-  application.name: tester
-  main.allow-bean-definition-overriding: true
   kafka:
     consumer:
       auto-offset-reset: earliest
