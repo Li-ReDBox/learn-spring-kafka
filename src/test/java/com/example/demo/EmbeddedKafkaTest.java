@@ -139,4 +139,9 @@ class EmbeddedKafkaTest {
         assertThat(admin.describeTopics(TOPIC_NAME)).containsKey(TOPIC_NAME);
     }
 
+    @Test
+    void noKCKProducer(@Autowired(required = false) KConsumer kc, @Autowired(required = false) KProducer kp) {
+        assertThat(kc).isNull();
+        assertThat(kp).isNull();;
+    }
 }
