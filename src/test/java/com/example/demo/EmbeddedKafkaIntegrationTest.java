@@ -19,7 +19,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.kafka.annotation.EnableKafkaStreams;
 import org.springframework.kafka.annotation.KafkaStreamsDefaultConfiguration;
 import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.kafka.test.EmbeddedKafkaBroker;
 import org.springframework.kafka.test.context.EmbeddedKafka;
 import org.springframework.test.annotation.DirtiesContext;
 
@@ -69,7 +68,10 @@ class EmbeddedKafkaIntegrationTest {
     public static class KafkaStreamsConfiguration {
         // This is important part of setting up because there is a KafkaStreamsDefaultConfiguration which may
         // does not work with EmbeddedKafka: is the broker the cause?
-        @Value("${" + EmbeddedKafkaBroker.SPRING_EMBEDDED_KAFKA_BROKERS + "}")
+        // EmbeddedKafkaBroker.SPRING_EMBEDDED_KAFKA_BROKERS = "spring.embedded.kafka.brokers";
+        // SPRING_EMBEDDED_KAFKA_BROKERS has been exported/set as property "spring.embedded.kafka.brokers";
+        // See https://github.com/spring-projects/spring-kafka/blob/3.0.x/spring-kafka-test/src/main/java/org/springframework/kafka/test/EmbeddedKafkaBroker.java#L108
+        @Value("${spring.embedded.kafka.brokers}")
         private String brokerAddresses;
 
         @Bean(name = KafkaStreamsDefaultConfiguration.DEFAULT_STREAMS_CONFIG_BEAN_NAME)
