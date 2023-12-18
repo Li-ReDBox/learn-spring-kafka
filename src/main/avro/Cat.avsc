@@ -1,0 +1,8 @@
+{
+    "name": "Cat",
+    "namespace": "com.example.data",
+    "type": "record",
+    "fields" : [
+        {"name": "breed", "type": "Breed"}
+    ]
+}
