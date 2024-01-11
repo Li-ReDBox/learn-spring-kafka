@@ -1,0 +1,53 @@
+package com.example.demo;
+
+import org.apache.kafka.streams.StreamsBuilder;
+import org.apache.kafka.streams.kstream.KStream;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.kafka.config.KafkaStreamsConfiguration;
+import org.springframework.kafka.config.StreamsBuilderFactoryBean;
+
+/*
+ * This example shows how to create multiple stream builders without using @EnableKafkaStreams and DEFAULT_STREAMS_CONFIG_BEAN_NAME:
+ * @Bean(name = KafkaStreamsDefaultConfiguration.DEFAULT_STREAMS_CONFIG_BEAN_NAME).
+ * To create multiple streamers, each has its own Factory, we need to define Beans which returns (creates) StreamsBuilderFactoryBean
+ * and match them with some topologies using @Qualifier
+ *   Because the dependencies are managed by springframework Beans, setting up tests maybe a challenge.
+ * In tests, a builder is always manually created, not by Spring's life cycle, so this challenge is managed by just:
+ * 1. create a builder by `StreamsBuilder builder = new StreamsBuilder();`
+ * 2. associate this builder with the topology to be tested by use the previously created builder as the argument
+ * in the place of @Qualifier: `streamOne(builder);`
+ * 3. you may have other configuration setup if that is done by Beans. Sometimes, an empty configuration created by 
+ * new Properties() just works:
+ *   new TopologyTestDriver(topology, new Properties())
+*/
+@Configuration
+public class Processors {
+    @Bean("Number1")
+    public StreamsBuilderFactoryBean streamOneBuilder() {
+        Map<String, Object> props = new HashMap<>();
+        props.put("key", "value");
+        return new StreamsBuilderFactoryBean(new KafkaStreamsConfiguration(props););
+    }
+
+
+    public KStream<String, String> streamOne(@Qualifier("Number2") StreamsBuilder streamsOneBuilder) {
+        final KStream<String, String> stream = streamsOneBuilder.stream("streamone_source_topic");
+        stream.mapValues(v -> v + "_mapped").to("streamone_output_topic");
+        return stream;
+    }
+
+    @Bean("Number2")
+    public StreamsBuilderFactoryBean streamTwoBuilder() {
+        Map<String, Object> props = new HashMap<>();
+        props.put("key", "value");
+        return new StreamsBuilderFactoryBean(new KafkaStreamsConfiguration(props););
+    }
+
+    @Bean
+    public KStream<String, String> streamTwo(@Qualifier("Number2") StreamsBuilder streamsTwoBuilder) {
+        final KStream<String, String> stream = streamsTwoBuilder.stream("streamtwo_source_topic");
+        stream.mapValues(v -> v + "_some_other_mapped").to("streamtwo_output_topic");
+        return stream;
+    }
+}

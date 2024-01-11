@@ -104,7 +104,7 @@ Kafka Streams connects to brokers. But in unit testing terms, it’s expensive t
 TopologyTestDriver solves these issues: it lets you unit test a topology in an end-to-end test, but without a broker. Integration testing should still be done with a live broker, but it can be done sparingly, and it's not needed for all tests.
 
 ### TopologyTestDriver
-A `TopologyTestDriver` takes a topology (input and output topics, and components between) and all of configurations. When use Confluent Avro SerDe, Schema Registry is used with Kafka Streams, TopologyTestDriver still usable as long as **to use MockSchemaRegistry, an in-memory version of Schema Registry, and can be specified by the URL provided in the configuration - instead of http:// you put in mock://, and the test will automatically use the MockSchemaRegistry.**
+A `TopologyTestDriver` takes a topology (input and output topics, and components between) and configurations. It is mainly used to test the topology and serializers to a degree. When use Confluent Avro SerDe, Schema Registry is used with Kafka Streams, TopologyTestDriver still usable as long as **to use MockSchemaRegistry, an in-memory version of Schema Registry, and can be specified by the URL provided in the configuration - instead of http:// you put in mock://, and the test will automatically use the MockSchemaRegistry.**
 
 First, you instantiate your `TopologyTestDriver`, using your topology and configurations as constructor parameters. Then you create `TestInputTopic` and `TestOutputTopic` instances by calling the test driver. Next, you call `TestInputTopic.pipeInput` with KeyValue objects. There are also overloaded methods that allow you to provide timestamps, lists of records, etc.
 
