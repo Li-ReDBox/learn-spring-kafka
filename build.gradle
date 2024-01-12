@@ -45,6 +45,10 @@ generateAvroJava {
 	outputDir = file("src/main/java")
 } 
 
-tasks.named('test') {
-	useJUnitPlatform()
+tasks.named('test', Test) {
+    useJUnitPlatform()
+
+    testLogging {
+        events "passed"
+    }
 }
