@@ -14,10 +14,10 @@ import org.apache.avro.message.SchemaStore;
 
 @org.apache.avro.specific.AvroGenerated
 public class Cat extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = -950425661080030134L;
+  private static final long serialVersionUID = 2146735649669871719L;
 
 
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"Cat\",\"namespace\":\"com.example.data\",\"fields\":[{\"name\":\"breed\",\"type\":{\"type\":\"enum\",\"name\":\"Breed\",\"symbols\":[\"ABYSSINIAN\",\"AMERICAN_SHORTHAIR\",\"BIRMAN\",\"MAINE_COON\",\"ORIENTAL\",\"PERSIAN\",\"RAGDOLL\",\"SIAMESE\",\"SPHYNX\"]}}]}");
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"Cat\",\"namespace\":\"com.example.data\",\"fields\":[{\"name\":\"breed\",\"type\":{\"type\":\"enum\",\"name\":\"Breed\",\"symbols\":[\"ABYSSINIAN\",\"AMERICAN_SHORTHAIR\",\"BIRMAN\",\"MAINE_COON\",\"ORIENTAL\",\"PERSIAN\",\"RAGDOLL\",\"SIAMESE\",\"SPHYNX\"]}},{\"name\":\"name\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static final SpecificData MODEL$ = new SpecificData();
@@ -74,6 +74,7 @@ public class Cat extends org.apache.avro.specific.SpecificRecordBase implements 
   }
 
   private com.example.data.Breed breed;
+  private java.lang.String name;
 
   /**
    * Default constructor.  Note that this does not initialize fields
@@ -85,9 +86,11 @@ public class Cat extends org.apache.avro.specific.SpecificRecordBase implements 
   /**
    * All-args constructor.
    * @param breed The new value for breed
+   * @param name The new value for name
    */
-  public Cat(com.example.data.Breed breed) {
+  public Cat(com.example.data.Breed breed, java.lang.String name) {
     this.breed = breed;
+    this.name = name;
   }
 
   @Override
@@ -101,6 +104,7 @@ public class Cat extends org.apache.avro.specific.SpecificRecordBase implements 
   public java.lang.Object get(int field$) {
     switch (field$) {
     case 0: return breed;
+    case 1: return name;
     default: throw new IndexOutOfBoundsException("Invalid index: " + field$);
     }
   }
@@ -111,6 +115,7 @@ public class Cat extends org.apache.avro.specific.SpecificRecordBase implements 
   public void put(int field$, java.lang.Object value$) {
     switch (field$) {
     case 0: breed = (com.example.data.Breed)value$; break;
+    case 1: name = value$ != null ? value$.toString() : null; break;
     default: throw new IndexOutOfBoundsException("Invalid index: " + field$);
     }
   }
@@ -130,6 +135,23 @@ public class Cat extends org.apache.avro.specific.SpecificRecordBase implements 
    */
   public void setBreed(com.example.data.Breed value) {
     this.breed = value;
+  }
+
+  /**
+   * Gets the value of the 'name' field.
+   * @return The value of the 'name' field.
+   */
+  public java.lang.String getName() {
+    return name;
+  }
+
+
+  /**
+   * Sets the value of the 'name' field.
+   * @param value the value to set.
+   */
+  public void setName(java.lang.String value) {
+    this.name = value;
   }
 
   /**
@@ -174,6 +196,7 @@ public class Cat extends org.apache.avro.specific.SpecificRecordBase implements 
     implements org.apache.avro.data.RecordBuilder<Cat> {
 
     private com.example.data.Breed breed;
+    private java.lang.String name;
 
     /** Creates a new Builder */
     private Builder() {
@@ -190,6 +213,10 @@ public class Cat extends org.apache.avro.specific.SpecificRecordBase implements 
         this.breed = data().deepCopy(fields()[0].schema(), other.breed);
         fieldSetFlags()[0] = other.fieldSetFlags()[0];
       }
+      if (isValidValue(fields()[1], other.name)) {
+        this.name = data().deepCopy(fields()[1].schema(), other.name);
+        fieldSetFlags()[1] = other.fieldSetFlags()[1];
+      }
     }
 
     /**
@@ -201,6 +228,10 @@ public class Cat extends org.apache.avro.specific.SpecificRecordBase implements 
       if (isValidValue(fields()[0], other.breed)) {
         this.breed = data().deepCopy(fields()[0].schema(), other.breed);
         fieldSetFlags()[0] = true;
+      }
+      if (isValidValue(fields()[1], other.name)) {
+        this.name = data().deepCopy(fields()[1].schema(), other.name);
+        fieldSetFlags()[1] = true;
       }
     }
 
@@ -244,12 +275,53 @@ public class Cat extends org.apache.avro.specific.SpecificRecordBase implements 
       return this;
     }
 
+    /**
+      * Gets the value of the 'name' field.
+      * @return The value.
+      */
+    public java.lang.String getName() {
+      return name;
+    }
+
+
+    /**
+      * Sets the value of the 'name' field.
+      * @param value The value of 'name'.
+      * @return This builder.
+      */
+    public com.example.data.Cat.Builder setName(java.lang.String value) {
+      validate(fields()[1], value);
+      this.name = value;
+      fieldSetFlags()[1] = true;
+      return this;
+    }
+
+    /**
+      * Checks whether the 'name' field has been set.
+      * @return True if the 'name' field has been set, false otherwise.
+      */
+    public boolean hasName() {
+      return fieldSetFlags()[1];
+    }
+
+
+    /**
+      * Clears the value of the 'name' field.
+      * @return This builder.
+      */
+    public com.example.data.Cat.Builder clearName() {
+      name = null;
+      fieldSetFlags()[1] = false;
+      return this;
+    }
+
     @Override
     @SuppressWarnings("unchecked")
     public Cat build() {
       try {
         Cat record = new Cat();
         record.breed = fieldSetFlags()[0] ? this.breed : (com.example.data.Breed) defaultValue(fields()[0]);
+        record.name = fieldSetFlags()[1] ? this.name : (java.lang.String) defaultValue(fields()[1]);
         return record;
       } catch (org.apache.avro.AvroMissingFieldException e) {
         throw e;
@@ -284,6 +356,8 @@ public class Cat extends org.apache.avro.specific.SpecificRecordBase implements 
   {
     out.writeEnum(this.breed.ordinal());
 
+    out.writeString(this.name);
+
   }
 
   @Override public void customDecode(org.apache.avro.io.ResolvingDecoder in)
@@ -293,11 +367,17 @@ public class Cat extends org.apache.avro.specific.SpecificRecordBase implements 
     if (fieldOrder == null) {
       this.breed = com.example.data.Breed.values()[in.readEnum()];
 
+      this.name = in.readString();
+
     } else {
-      for (int i = 0; i < 1; i++) {
+      for (int i = 0; i < 2; i++) {
         switch (fieldOrder[i].pos()) {
         case 0:
           this.breed = com.example.data.Breed.values()[in.readEnum()];
+          break;
+
+        case 1:
+          this.name = in.readString();
           break;
 
         default:
