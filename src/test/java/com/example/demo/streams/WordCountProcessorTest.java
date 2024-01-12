@@ -67,8 +67,8 @@ class WordCountProcessorTest {
             TestOutputTopic<String, Long> outputTopic = topologyTestDriver
                 .createOutputTopic("output-topic", new StringDeserializer(), new LongDeserializer());
 
-            inputTopic.pipeInput("key", "hello world");
-            inputTopic.pipeInput("key2", "hello");
+            inputTopic.pipeInput(null, "hello world");
+            inputTopic.pipeInput(null, "hello");
 
             assertThat(outputTopic.readKeyValuesToList())
                 .containsExactly(
