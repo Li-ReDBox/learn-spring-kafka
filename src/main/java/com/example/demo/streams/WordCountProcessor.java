@@ -39,7 +39,6 @@ public class WordCountProcessor {
         wordCounts.toStream().to("output-topic");
     }
 
-    // Baeldung says: alternately, we can also create a bean in the configuration class to generate the topology. How?
     @Autowired
     void buildPipeline2(StreamsBuilder streamsBuilder) {
         KStream<String, String> messageStream = streamsBuilder
@@ -48,11 +47,5 @@ public class WordCountProcessor {
         messageStream
             .mapValues((ValueMapper<String, String>) String::toLowerCase)
             .to("output-topic-2", Produced.with(Serdes.String(), Serdes.String()));
-
-        // Debug a KTable<String, Long>:
-        // wordCounts.toStream().foreach((word, count) -> System.out.println("word: " + word + " -> " + count));
-        // In production:
-        // wordCounts.toStream().to(outputTopic, Produced.with(Serdes.String(), Serdes.Long()));
-        // or simply:
     }
 }
